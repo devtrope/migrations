@@ -4,6 +4,9 @@ compose := docker-compose
 container := migrations-php-1
 exec := docker exec -it $(container)
 
+analyze: check-container
+	docker exec -it $(container) vendor/bin/phpstan analyze -c phpstan.neon
+
 autoload: check-container
 	docker exec -it $(container) composer dump-autoload
 
