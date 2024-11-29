@@ -1,4 +1,3 @@
-# Docker
+# Migrations (pas de nom pour le moment)
 
-Repo dont le seul objectif est de tester un peu Docker et d'autres éléments que je n'ai pas encore eu l'occasion de prendre en main
-plus que ça.
+Pour voir comment ça fonctionne, je souhaite développer un système de gestion de migration inspiré de [Phinx](https://book.cakephp.org/phinx/0/en/index.html)
