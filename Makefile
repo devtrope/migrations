@@ -1,8 +1,11 @@
-.PHONY: bash build install require start stop version
+.PHONY: autoload bash build install require start stop version
 
 compose := docker-compose
-container := docker-php-1
+container := migrations-php-1
 exec := docker exec -it $(container)
+
+autoload: check-container
+	docker exec -it $(container) composer dump-autoload
 
 bash:
 	$(exec) bash
