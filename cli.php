@@ -16,6 +16,11 @@ switch ($command) {
             exit(1);
         }
 
+        if (! ctype_alpha($migrationName)) {
+            echo "The migration name should be in camel case.\n";
+            exit(1);
+        }
+
         $migrationManager->createMigration($migrationName);
         break;
 
@@ -26,6 +31,6 @@ switch ($command) {
     
     default:
         echo "No command provided.\n";
-        echo "You can use --help to list all the commands.\n";
+        echo "You can use --help to list all the commands available.\n";
         break;
 }
