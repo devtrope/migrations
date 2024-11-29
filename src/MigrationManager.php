@@ -14,7 +14,10 @@ class MigrationManager
     public function createMigration(string $migrationName): void
     {
         $fileName = $this->migrationsPath . date('YmdHis') . "_{$this->formatMigrationName($migrationName)}.php";
-        file_put_contents($fileName, null);
+        $templateFolder = dirname(__DIR__) . "/templates";
+        $migrationContent = file_get_contents("{$templateFolder}/Template.php");
+        $migrationContent = str_replace("migrationName", $migrationName, $migrationContent);
+        file_put_contents($fileName, $migrationContent);
         echo "New migration created in {$this->migrationsPath} : {$fileName}\n";
     }
 

@@ -1,4 +1,4 @@
-.PHONY: autoload bash build install require start stop version
+.PHONY: autoload bash build install require standard start stop version
 
 compose := docker-compose
 container := migrations-php-1
@@ -30,6 +30,9 @@ list-docker:
 
 require: check-container
 	docker exec -it $(container) composer $(dev) require $(lib)
+
+standard: check-container
+	docker exec -it $(container) vendor/bin/phpcs src/ --standard=PSR2
 
 start:
 	$(compose) up
