@@ -22,6 +22,7 @@ class Migration implements MigrationInterface
     public function table(string $tableName): self
     {
         $this->tableName = $tableName;
+        $this->columns = [];
         return $this;
     }
 
