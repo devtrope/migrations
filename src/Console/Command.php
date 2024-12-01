@@ -38,12 +38,19 @@ class Command
             }
     
             try {
-                $migrationManager->createMigration($migrationName);
+                echo $migrationManager->createMigration($migrationName);
                 exit();
             } catch (MigrationPathNotFoundException $e) {
                 echo "{$e->getMessage()}\n";
                 exit(1);
             }
+        }
+
+        if ($command === 'migrate') {
+            $migrationManager = new MigrationManager();
+            $migrationManager->execute();
+            echo "Migration successfully executed.\n";
+            exit();
         }
 
         echo "This command does not exist.\n";

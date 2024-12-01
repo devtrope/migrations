@@ -13,7 +13,7 @@ class MigrationManager
         $this->migrationsPath = $migrationsPath;
     }
 
-    public function createMigration(string $migrationName): void
+    public function createMigration(string $migrationName): string
     {
         if (! is_dir($this->migrationsPath)) {
             throw new MigrationPathNotFoundException($this->migrationsPath);
@@ -27,7 +27,15 @@ class MigrationManager
         $migrationContent = file_get_contents("{$templateFolder}/Template.php");
         $migrationContent = str_replace("migrationName", $migrationName, $migrationContent);
         file_put_contents($fileName, $migrationContent);
-        echo "New migration created in {$this->migrationsPath} : {$fileName}\n";
+        return "New migration created in {$this->migrationsPath} : {$fileName}\n";
+    }
+
+    public function execute(): void
+    {
+        $database = new Database();
+        $database = $database->connect();
+        $stmt = $database->prepare("CREATE TABLE users (id int, name varchar(255))");
+        $stmt->execute();
     }
 
     private function formatMigrationName(string $migrationName): string

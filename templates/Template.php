@@ -2,5 +2,8 @@
 
 class migrationName
 {
-    
+    public function change(): void
+    {
+        
+    }
 }
