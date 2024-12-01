@@ -15,6 +15,9 @@ class MigrationManager
     {
         $fileName = $this->migrationsPath . date('YmdHis') . "_{$this->formatMigrationName($migrationName)}.php";
         $templateFolder = dirname(__DIR__) . "/templates";
+        /**
+         * @var string $migrationContent
+         */
         $migrationContent = file_get_contents("{$templateFolder}/Template.php");
         $migrationContent = str_replace("migrationName", $migrationName, $migrationContent);
         file_put_contents($fileName, $migrationContent);
@@ -23,6 +26,9 @@ class MigrationManager
 
     private function formatMigrationName(string $migrationName): string
     {
+        /**
+         * @var list<string> $splittedName
+         */
         $splittedName = preg_split('/(?=[A-Z])/', $migrationName, -1, PREG_SPLIT_NO_EMPTY);
         $formatted = implode('_', $splittedName);
 
