@@ -34,16 +34,19 @@ class Migration implements MigrationInterface
 
     public function create(): void
     {
-        $columns = [];
-
-        foreach ($this->columns as $key => $value) {
-            $columns[] = "{$key} {$value}";
-        }
-
-        $columns = join(', ', $columns);
-
         $database = $this->database->getInstance();
-        $stmt = $database->prepare("CREATE TABLE {$this->tableName} ({$columns})");
+        $stmt = $database->prepare("CREATE TABLE {$this->tableName} (`id` INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
         $stmt->execute();
+        
+        $this->alter();
+    }
+
+    public function alter(): void
+    {
+        foreach ($this->columns as $key => $value) {
+            $database = $this->database->getInstance();
+            $stmt = $database->prepare("ALTER TABLE {$this->tableName} ADD {$key} {$value}");
+            $stmt->execute();
+        }
     }
 }
