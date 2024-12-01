@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\MigrationManager;
+use App\Migrations\MigrationManager;
 use App\Exceptions\MigrationPathNotFoundException;
 
 class Command

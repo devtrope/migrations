@@ -1,8 +1,10 @@
 <?php
 
-class migrationName
+use App\Migrations\MigrationInterface;
+
+class migrationName implements MigrationInterface
 {
-    public function change(): void
+    public function change(): string
     {
         
     }

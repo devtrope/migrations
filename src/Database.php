@@ -12,7 +12,7 @@ class Database
         $this->configuration = require $configurationFile;
     }
 
-    public function connect(): \PDO
+    public function getInstance(): \PDO
     {
         try {
             if (! isset($this->database)) {
@@ -21,7 +21,7 @@ class Database
                     dbname={$this->configuration['name']};
                     charset={$this->configuration['charset']};
                     port={$this->configuration['port']}",
-                    $this->configuration['user'], 
+                    $this->configuration['user'],
                     $this->configuration['pass']
                 );
             }
