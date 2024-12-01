@@ -1,7 +1,7 @@
 .PHONY: autoload bash build install require standard start stop version
 
 compose := docker-compose
-container := migrations-php-1
+container := nelly-php-1
 exec := docker exec -it $(container)
 
 analyze: check-container
@@ -25,7 +25,7 @@ commit:
 install: check-container
 	$(exec) composer install
 
-list-docker:
+ld:
 	docker ps
 
 require: check-container
