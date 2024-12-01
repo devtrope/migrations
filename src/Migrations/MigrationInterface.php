@@ -4,5 +4,5 @@ namespace App\Migrations;
 
 interface MigrationInterface
 {
-    public function change(): string;
+    public function change(): void;
 }

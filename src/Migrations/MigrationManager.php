@@ -8,12 +8,10 @@ use App\Exceptions\MigrationPathNotFoundException;
 class MigrationManager
 {
     private string $migrationsPath;
-    private Database $database;
 
     public function __construct(string $migrationsPath = 'migrations/')
     {
         $this->migrationsPath = $migrationsPath;
-        $this->database = new Database();
     }
 
     public function createMigration(string $migrationName): string
@@ -50,9 +48,7 @@ class MigrationManager
             
             if (class_exists($className) && is_subclass_of($className, MigrationInterface::class)) {
                 $migrationInstance = new $className();
-                $database = $this->database->getInstance();
-                $stmt = $database->prepare($migrationInstance->change());
-                $stmt->execute();
+                $migrationInstance->change();
             }
         }
     }

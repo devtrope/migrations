@@ -1,10 +1,10 @@
 <?php
 
-use App\Migrations\MigrationInterface;
+use App\Migrations\Migration;
 
-class migrationName implements MigrationInterface
+class migrationName extends Migration
 {
-    public function change(): string
+    public function change(): void
     {
         
     }

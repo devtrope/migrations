@@ -1,11 +1,12 @@
 <?php
 
-use App\Migrations\MigrationInterface;
+use App\Migrations\Migration;
 
-class initialMigration implements MigrationInterface
+class initialMigration extends Migration
 {
-    public function change(): string
+    public function change(): void
     {
-        return "CREATE TABLE users (id int, name varchar(255))";
+        $table = $this->table('users');
+        $table->addColumn('id', 'int')->addColumn('name', 'varchar(255)')->create();
     }
 }
