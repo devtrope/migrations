@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Exceptions\MigrationPathNotFoundException;
+
 class MigrationManager
 {
     private string $migrationsPath;
@@ -13,6 +15,10 @@ class MigrationManager
 
     public function createMigration(string $migrationName): void
     {
+        if (! is_dir($this->migrationsPath)) {
+            throw new MigrationPathNotFoundException($this->migrationsPath);
+        }
+
         $fileName = $this->migrationsPath . date('YmdHis') . "_{$this->formatMigrationName($migrationName)}.php";
         $templateFolder = dirname(__DIR__) . "/templates";
         /**

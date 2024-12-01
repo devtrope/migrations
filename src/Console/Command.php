@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\MigrationManager;
+use App\Exceptions\MigrationPathNotFoundException;
 
 class Command
 {
@@ -25,6 +26,7 @@ class Command
         if ($command === 'create') {
             $migrationManager = new MigrationManager();
             $migrationName = $arguments[2] ?? null;
+
             if (! $migrationName) {
                 echo "Please provide a migration name.\n";
                 exit(1);
@@ -35,8 +37,13 @@ class Command
                 exit(1);
             }
     
-            $migrationManager->createMigration($migrationName);
-            exit();
+            try {
+                $migrationManager->createMigration($migrationName);
+                exit();
+            } catch (MigrationPathNotFoundException $e) {
+                echo "{$e->getMessage()}\n";
+                exit(1);
+            }
         }
 
         echo "This command does not exist.\n";
