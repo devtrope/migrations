@@ -6,7 +6,7 @@ use App\MigrationManager;
 
 class Command
 {
-    public function run(array $arguments): never
+    public function execute(array $arguments): never
     {
         $command = $arguments[1] ?? null;
 

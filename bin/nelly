@@ -6,4 +6,4 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 use App\Console\Command;
 
 $command = new Command();
-$command->run($argv);
+$command->execute($argv);
