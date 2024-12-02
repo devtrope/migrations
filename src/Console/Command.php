@@ -4,9 +4,17 @@ namespace App\Console;
 
 use App\Migrations\MigrationManager;
 use App\Exceptions\MigrationPathNotFoundException;
+use Psr\Container\ContainerInterface;
 
 class Command
 {
+    private ContainerInterface $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
     public function execute(array $arguments): never
     {
         $command = $arguments[1] ?? null;
@@ -24,7 +32,7 @@ class Command
         }
 
         if ($command === 'create') {
-            $migrationManager = new MigrationManager();
+            $migrationManager = $this->container->get(MigrationManager::class);
             $migrationName = $arguments[2] ?? null;
 
             if (! $migrationName) {
@@ -47,7 +55,7 @@ class Command
         }
 
         if ($command === 'migrate') {
-            $migrationManager = new MigrationManager();
+            $migrationManager = $this->container->get(MigrationManager::class);
             $migrationManager->execute();
             echo "Migration successfully executed.\n";
             exit();

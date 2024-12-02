@@ -12,7 +12,7 @@ class initialMigration extends Migration
         $table = $this->table('reset_password');
         $table->addColumn('user_id', 'int')->create();
         
-        $table = $this->table('reset_password');
+        $table = $this->table('reset_password'); 
         $table->addColumn('active', 'int')->alter();
     }
 }

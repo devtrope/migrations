@@ -5,5 +5,10 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 use App\Console\Command;
 
-$command = new Command();
+$containerBuilder = new DI\ContainerBuilder();
+$diConfig = require dirname(__DIR__) . '/config/di.php';
+$diConfig($containerBuilder);
+$container = $containerBuilder->build();
+
+$command = new Command($container);
 $command->execute($argv);

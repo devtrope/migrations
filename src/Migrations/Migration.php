@@ -37,7 +37,7 @@ class Migration implements MigrationInterface
         $database = $this->database->getInstance();
         $stmt = $database->prepare("CREATE TABLE {$this->tableName} (`id` INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
         $stmt->execute();
-        
+
         $this->alter();
     }
 
@@ -45,8 +45,21 @@ class Migration implements MigrationInterface
     {
         foreach ($this->columns as $key => $value) {
             $database = $this->database->getInstance();
-            $stmt = $database->prepare("ALTER TABLE {$this->tableName} ADD {$key} {$value}");
+            $stmt = $database->prepare("ALTER TABLE {$this->tableName} ADD {$key} {$value};");
             $stmt->execute();
         }
+    }
+
+    public function migrationExecuted(string $migrationDate): void
+    {
+        $database = $this->database->getInstance();
+        $stmt = $database->prepare("CREATE TABLE IF NOT EXISTS migrations (version VARCHAR(255)) ENGINE = InnoDB;");
+        $stmt->execute();
+
+        $stmt = $database->prepare("TRUNCATE TABLE migrations;");
+        $stmt->execute();
+
+        $stmt = $database->prepare("INSERT INTO migrations (version) VALUES ('{$migrationDate}');");
+        $stmt->execute();
     }
 }

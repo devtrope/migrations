@@ -9,9 +9,11 @@ class MigrationManager
 {
     private string $migrationsPath;
 
-    public function __construct(string $migrationsPath = 'migrations/')
+    public function __construct(
+        private Migration $migration
+    )
     {
-        $this->migrationsPath = $migrationsPath;
+        $this->migrationsPath = 'migrations/';
     }
 
     public function createMigration(string $migrationName): string
@@ -43,12 +45,14 @@ class MigrationManager
         foreach ($migrations as $migration) {
             require $this->migrationsPath . $migration;
 
-            $className = $this->extractClassName(pathinfo($migration, PATHINFO_FILENAME));
+            $fileInformations = $this->extractFileInformations(pathinfo($migration, PATHINFO_FILENAME));
+            $className = $fileInformations->className;
             $className = $this->formatClassName($className);
             
             if (class_exists($className) && is_subclass_of($className, MigrationInterface::class)) {
                 $migrationInstance = new $className();
                 $migrationInstance->change();
+                $this->migration->migrationExecuted($fileInformations->migrationDate);
             }
         }
     }
@@ -72,9 +76,10 @@ class MigrationManager
         return lcfirst($className);
     }
 
-    private function extractClassName(string $fileName): string
+    private function extractFileInformations(string $fileName): \stdClass
     {
         $parts = explode('_', $fileName, 2);
-        return $parts[1];
+
+        return (object) ['migrationDate' => $parts[0], 'className' => $parts[1]];
     }
 }
