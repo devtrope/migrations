@@ -32,6 +32,9 @@ class Command
         }
 
         if ($command === 'create') {
+            /**
+             * @var MigrationManager $migrationManager
+             */
             $migrationManager = $this->container->get(MigrationManager::class);
             $migrationName = $arguments[2] ?? null;
 
@@ -55,6 +58,9 @@ class Command
         }
 
         if ($command === 'migrate') {
+            /**
+             * @var MigrationManager $migrationManager
+             */
             $migrationManager = $this->container->get(MigrationManager::class);
             $migrationManager->execute();
             echo "Migration successfully executed.\n";

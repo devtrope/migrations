@@ -11,8 +11,7 @@ class MigrationManager
 
     public function __construct(
         private Migration $migration
-    )
-    {
+    ) {
         $this->migrationsPath = 'migrations/';
     }
 

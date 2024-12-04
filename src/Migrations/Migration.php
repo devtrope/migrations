@@ -35,7 +35,10 @@ class Migration implements MigrationInterface
     public function create(): void
     {
         $database = $this->database->getInstance();
-        $stmt = $database->prepare("CREATE TABLE {$this->tableName} (`id` INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
+        $stmt = $database->prepare(
+            "CREATE TABLE {$this->tableName} (`id` INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (`id`))
+            ENGINE = InnoDB;"
+        );
         $stmt->execute();
 
         $this->alter();
