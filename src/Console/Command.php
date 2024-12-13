@@ -17,17 +17,21 @@ class Command
 
     public function execute(array $arguments): never
     {
+        $output = new Output;
         $command = $arguments[1] ?? null;
 
         if (! $command) {
-            echo "No command provided.\n";
-            echo "You can use --help to list all the commands available.\n";
+            $output->write("No command provided.");
+            $output->write("You can use --help to list all the commands available.");
+            $output->read();
             exit();
         }
 
         if ($command === '--help') {
-            echo "Commands:\n";
-            echo " create <name> Create a new migration\n";
+            $output->write("Commands:");
+            $output->write(" create <name> Create a new migration");
+            $output->write(" migrate Migrate all your migrations");
+            $output->read();
             exit();
         }
 
@@ -39,20 +43,24 @@ class Command
             $migrationName = $arguments[2] ?? null;
 
             if (! $migrationName) {
-                echo "Please provide a migration name.\n";
+                $output->write("Please provide a migration name.");
+                $output->read();
                 exit(1);
             }
     
             if (! ctype_alpha($migrationName)) {
-                echo "The migration name should be in camel case.\n";
+                $output->write("The migration name should be in camel case.");
+                $output->read();
                 exit(1);
             }
     
             try {
-                echo $migrationManager->createMigration($migrationName);
+                $output->write($migrationManager->createMigration($migrationName));
+                $output->read();
                 exit();
             } catch (MigrationPathNotFoundException $e) {
-                echo "{$e->getMessage()}\n";
+                $output->write($e->getMessage());
+                $output->read();
                 exit(1);
             }
         }
@@ -63,11 +71,13 @@ class Command
              */
             $migrationManager = $this->container->get(MigrationManager::class);
             $migrationManager->execute();
-            echo "Migration successfully executed.\n";
+            $output->write("Migration successfully executed.");
+            $output->read();
             exit();
         }
 
-        echo "This command does not exist.\n";
+        $output->write("This command does not exist.");
+        $output->read();
         exit(1);
     }
 }
