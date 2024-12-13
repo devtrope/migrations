@@ -71,12 +71,12 @@ class Command
              */
             $migrationManager = $this->container->get(MigrationManager::class);
             $migrationManager->execute();
-            $output->write("Migration successfully executed.")
+            $output->write("Migration successfully executed.", Output::SUCCESS)
                    ->read();
             exit();
         }
 
-        $output->write("This command does not exist.")
+        $output->write("This command does not exist.", Output::ERROR)
                ->read();
         exit(1);
     }
